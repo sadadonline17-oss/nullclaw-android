@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Key
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Link
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -148,7 +148,7 @@ fun LoginScreen(
                     label = { Text("Pairing Code") },
                     placeholder = { Text("123456") },
                     leadingIcon = {
-                        Icon(Icons.Default.Key, contentDescription = null)
+                        Icon(Icons.Default.Info, contentDescription = null)
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.fillMaxWidth(),

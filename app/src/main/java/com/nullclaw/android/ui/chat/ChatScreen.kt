@@ -17,7 +17,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.material3.CircularProgressIndicator
@@ -93,7 +93,7 @@ fun ChatScreen(
                         onLogout()
                     }) {
                         Icon(
-                            imageVector = Icons.Default.ExitToApp,
+                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
                             contentDescription = "Logout",
                             tint = MaterialTheme.colorScheme.onPrimaryContainer
                         )

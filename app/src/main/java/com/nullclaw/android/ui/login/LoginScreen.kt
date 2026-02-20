@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -100,7 +100,7 @@ fun LoginScreen(
                     label = { Text("Server URL") },
                     placeholder = { Text("http://10.0.2.2:3000") },
                     leadingIcon = {
-                        Icon(Icons.Default.Link, contentDescription = null)
+                        Icon(Icons.Default.Settings, contentDescription = null)
                     },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,

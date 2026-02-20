@@ -32,6 +32,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Generate debug keystore
+        run: |
+          keytool -genkeypair -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+
       - name: Decode keystore
         env:
           ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_BASE64 }}

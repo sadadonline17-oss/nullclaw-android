@@ -23,10 +23,19 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("${rootProject.projectDir}/release.keystore")
-            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "android"
-            keyAlias = System.getenv("KEY_ALIAS") ?: "nullclaw"
-            keyPassword = System.getenv("KEY_PASSWORD") ?: "android"
+            val keystoreFile = file("${rootProject.projectDir}/release.keystore")
+            if (keystoreFile.exists()) {
+                storeFile = keystoreFile
+                storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "android"
+                keyAlias = System.getenv("KEY_ALIAS") ?: "nullclaw"
+                keyPassword = System.getenv("KEY_PASSWORD") ?: "android"
+            } else {
+                // Fallback to debug keystore for CI builds
+                storeFile = file("${rootProject.projectDir}/debug.keystore")
+                storePassword = "android"
+                keyAlias = "androiddebugkey"
+                keyPassword = "android"
+            }
         }
     }
 

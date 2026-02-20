@@ -1,0 +1,40 @@
+[Unit]
+Description=NullClaw AI Assistant Gateway
+Documentation=https://github.com/nullclaw/nullclaw
+After=network.target
+
+[Service]
+Type=simple
+User=nullclaw
+Group=nullclaw
+WorkingDirectory=/opt/nullclaw
+ExecStart=/usr/local/bin/nullclaw gateway --port 3000
+Restart=on-failure
+RestartSec=5
+
+# Environment variables
+Environment=NULLCLAW_API_KEY=
+Environment=NULLCLAW_PROVIDER=openrouter
+Environment=NULLCLAW_MODEL=anthropic/claude-sonnet-4
+EnvironmentFile=/opt/nullclaw/.env
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/nullclaw
+ReadOnlyPaths=/etc/ssl/certs
+
+# Resource limits
+LimitNOFILE=65536
+MemoryMax=512M
+CPUQuota=50%
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nullclaw
+
+[Install]
+WantedBy=multi-user.target

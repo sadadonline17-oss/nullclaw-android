@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  nullclaw:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nullclaw-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NULLCLAW_API_KEY=${NULLCLAW_API_KEY:-}
+      - NULLCLAW_PROVIDER=${NULLCLAW_PROVIDER:-openrouter}
+      - NULLCLAW_MODEL=${NULLCLAW_MODEL:-anthropic/claude-sonnet-4}
+      - NULLCLAW_GATEWAY_PORT=3000
+      - NULLCLAW_REQUIRE_PAIRING=true
+    volumes:
+      - nullclaw_data:/home/nullclaw/.nullclaw
+      - nullclaw_workspace:/home/nullclaw/.nullclaw/workspace
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - nullclaw_network
+    security_opt:
+      - no-new-privileges:true
+    read_only: false
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 64M
+
+  # Optional: Cloudflare tunnel for secure external access
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: nullclaw-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN:-}
+    depends_on:
+      - nullclaw
+    networks:
+      - nullclaw_network
+    profiles:
+      - tunnel
+
+  # Optional: ngrok tunnel for development
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: nullclaw-ngrok
+    restart: unless-stopped
+    command: http nullclaw:3000
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN:-}
+    ports:
+      - "4040:4040"
+    depends_on:
+      - nullclaw
+    networks:
+      - nullclaw_network
+    profiles:
+      - ngrok
+
+volumes:
+  nullclaw_data:
+    driver: local
+  nullclaw_workspace:
+    driver: local
+
+networks:
+  nullclaw_network:
+    driver: bridge

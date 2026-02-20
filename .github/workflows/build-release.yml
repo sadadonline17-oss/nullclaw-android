@@ -6,7 +6,8 @@ on:
       - 'v*'
 
 env:
-  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2 -Xmx4g -XX:MaxMetaspaceSize=1g"
+  JAVA_TOOL_OPTIONS: "-Xmx4g"
 
 jobs:
   build:
